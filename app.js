@@ -25,7 +25,6 @@ var pike = {
       } else {
         hour = 'Total';
       }
-      //console.log(hour);
       this.salesArray[i] = [hour,0];
     }
   },
@@ -33,7 +32,7 @@ var pike = {
   salesPerDay: function() {
     pike.loadHours();
     for(var i = 0; i < 14; i++) {
-      this.salesArray[i][1] = this.salesPerHour();
+      this.salesArray[i][1] = Math.floor(this.salesPerHour());
       this.total += this.salesArray[i][1];
     }
     this.salesArray[(this.salesArray.length - 1)][1] = this.total;
@@ -41,26 +40,20 @@ var pike = {
   render: function() {
     var ul = document.createElement('ul');
     var h2 = document.createElement('h2');
-    //var li = document.createElement('li');
     var main = document.getElementById('store_info');
+
+    while(main.firstChild) {
+      main.removeChild(main.firstChild);
+    } // firstChild remove borrowed from stackoverflow: http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
 
     h2.textContent = 'Pike';
     ul.appendChild(h2);
 
     for(var i = 0; i < this.salesArray.length; i++) {
       var li = document.createElement('li');
-      if (i < (this.salesArray.length - 1)) {
-        li.textContent = 'Sales this hour: ' + this.salesArray[i];
-      } else {
-        li.textContent = 'Total: ' + this.total;
-      }
+      li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + 'cookies';
       ul.appendChild(li);
     }
-
-
-    //li.textContent = 'Total: ' + this.total;
-
-    //ul.appendChild(li);
     main.appendChild(ul);
   }
 };
