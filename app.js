@@ -42,6 +42,7 @@ var pike = {
   },
   //This renders the sales array into readible info in the browser.
   render: function() {
+    pike.salesPerDay();
     var ul = document.createElement('ul');
     var h2 = document.createElement('h2');
     var main = document.getElementById('store_info');
@@ -104,6 +105,7 @@ var seaTac = {
   },
   //This renders the sales array into readible info in the browser.
   render: function() {
+    seaTac.salesPerDay();
     var ul = document.createElement('ul');
     var h2 = document.createElement('h2');
     var main = document.getElementById('store_info');
@@ -162,6 +164,7 @@ var center = {
   },
   //This renders the sales array into readible info in the browser.
   render: function() {
+    center.salesPerDay();
     var ul = document.createElement('ul');
     var h2 = document.createElement('h2');
     var main = document.getElementById('store_info');
@@ -220,6 +223,7 @@ var capHill = {
   },
   //This renders the sales array into readible info in the browser.
   render: function() {
+    capHill.salesPerDay();
     var ul = document.createElement('ul');
     var h2 = document.createElement('h2');
     var main = document.getElementById('store_info');
@@ -278,6 +282,7 @@ var alki = {
   },
   //This renders the sales array into readible info in the browser.
   render: function() {
+    alki.salesPerDay();
     var ul = document.createElement('ul');
     var h2 = document.createElement('h2');
     var main = document.getElementById('store_info');
@@ -294,17 +299,17 @@ var alki = {
   }
 };
 
-pike.salesPerDay();
+//pike.salesPerDay();
 pike.render();
 
-seaTac.salesPerDay();
+//seaTac.salesPerDay();
 seaTac.render();
 
-center.salesPerDay();
+//center.salesPerDay();
 center.render();
 
-capHill.salesPerDay();
+//capHill.salesPerDay();
 capHill.render();
 
-alki.salesPerDay();
+//alki.salesPerDay();
 alki.render();
