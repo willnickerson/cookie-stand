@@ -42,6 +42,7 @@ Store.prototype.loadHours = function() {
 
 //calculates total sales per day and loads sales per hour into salesArray.
 Store.prototype.salesPerDay = function() {
+  this.total = 0;
   this.loadHours();
   for(var i = 0; i < 14; i++) {
     this.salesArray[i][1] = Math.floor(this.salesPerHour());
@@ -72,34 +73,64 @@ Store.prototype.render = function() {
   main.appendChild(ul);
 };
 
+Store.prototype.renderToTable = function() {
+  this.salesPerDay();
+  var tr = document.createElement('tr');
+  for (var i = 0; i <= this.salesArray.length; i++) {
+    if(i === 0){
+      var th = document.createElement('th');
+      th.textContent = this.name;
+      tr.appendChild(th);
+    } else {
+      var j = i - 1;
+      var td = document.createElement('td');
+      td.textContent = this.salesArray[j][1];
+      tr.appendChild(td);
+    }
+  }
+  tableBody.appendChild(tr);
+};
+
 var pike = new Store('Pike Place', 23, 65, 6.3);
-//pike.render();
 
-var seaTac = new Store('SeaTac', 3, 24, 1.2);
-//seaTac.render();
-
-var center = new Store('Seattle Center', 11, 38, 3.7);
-//center.render();
-
-var capHill = new Store('Capitol Hill', 20, 38, 2.3);
-//capHill.render();
-
-var alki = new Store('alki', 2, 16, 4.6);
-//alki.render();
-
+//creating table and table head elts
 var salesTable = document.createElement('table');
 var headerContent = pike.loadHours();
 var salesHead = document.createElement('thead');
 var headerRow = document.createElement('tr');
 
+//creating a appending table head content
 for(var i = 0; i < headerContent.length; i++){
   var th = document.createElement('th');
   th.textContent = headerContent[i];
   headerRow.appendChild(th);
 }
 
+//appending table head to table
 salesHead.appendChild(headerRow);
 salesTable.appendChild(salesHead);
 
+//creating body elts.
+var tableBody = document.createElement('tbody');
+salesTable.appendChild(tableBody);
+
+pike.renderToTable();
+
+var seaTac = new Store('SeaTac', 3, 24, 1.2);
+seaTac.renderToTable();
+
+var center = new Store('Seattle Center', 11, 38, 3.7);
+center.renderToTable();
+
+var capHill = new Store('Capitol Hill', 20, 38, 2.3);
+capHill.renderToTable();
+
+var alki = new Store('alki', 2, 16, 4.6);
+alki.renderToTable();
+
+
+
+
+//appending table to main.
 var main = document.getElementById('store_info');
 main.appendChild(salesTable);
