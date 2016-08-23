@@ -23,6 +23,7 @@ Store.prototype.salesPerHour = function() {
 //Loads the sales array with times of the day in which sales are made.
 Store.prototype.loadHours = function() {
   var hour;
+  var tableHours = [];
   for(var i = 0; i <= 14; i++) {
     if(i < 6){
       hour = i + 6 + 'AM';
@@ -34,7 +35,9 @@ Store.prototype.loadHours = function() {
       hour = 'Total';
     }
     this.salesArray[i] = [hour];
+    tableHours[i + 1] = hour;
   }
+  return tableHours;
 };
 
 //calculates total sales per day and loads sales per hour into salesArray.
@@ -70,16 +73,33 @@ Store.prototype.render = function() {
 };
 
 var pike = new Store('Pike Place', 23, 65, 6.3);
-pike.render();
+//pike.render();
 
 var seaTac = new Store('SeaTac', 3, 24, 1.2);
-seaTac.render();
+//seaTac.render();
 
 var center = new Store('Seattle Center', 11, 38, 3.7);
-center.render();
+//center.render();
 
 var capHill = new Store('Capitol Hill', 20, 38, 2.3);
-capHill.render();
+//capHill.render();
 
 var alki = new Store('alki', 2, 16, 4.6);
-alki.render();
+//alki.render();
+
+var salesTable = document.createElement('table');
+var headerContent = pike.loadHours();
+var salesHead = document.createElement('thead');
+var headerRow = document.createElement('tr');
+
+for(var i = 0; i < headerContent.length; i++){
+  var th = document.createElement('th');
+  th.textContent = headerContent[i];
+  headerRow.appendChild(th);
+}
+
+salesHead.appendChild(headerRow);
+salesTable.appendChild(salesHead);
+
+var main = document.getElementById('store_info');
+main.appendChild(salesTable);
