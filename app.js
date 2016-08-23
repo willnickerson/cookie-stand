@@ -23,7 +23,6 @@ Store.prototype.salesPerHour = function() {
 //calculates total sales per day and loads sales per hour into salesArray.
 Store.prototype.salesPerDay = function() {
   this.total = 0;
-  //this.loadHours();
   for(var i = 0; i <= 14; i++) {
     this.salesArray[i] = Math.floor(this.salesPerHour());
     this.total += this.salesArray[i];
@@ -102,8 +101,41 @@ center.renderToTable();
 var capHill = new Store('Capitol Hill', 20, 38, 2.3);
 capHill.renderToTable();
 
-var alki = new Store('alki', 2, 16, 4.6);
+var alki = new Store('Alki', 2, 16, 4.6);
 alki.renderToTable();
+
+var tableFoot = document.createElement('tfoot');
+var footRow = document.createElement('tr');
+
+function totalByHour() {
+  var totalArray = ['Totals by hour'];
+  for(i = 0; i < pike.salesArray.length; i++) {
+    var hourTotal = 0;
+    hourTotal += pike.salesArray[i];
+    hourTotal += seaTac.salesArray[i];
+    hourTotal += center.salesArray[i];
+    hourTotal += capHill.salesArray[i];
+    hourTotal += alki.salesArray[i];
+    totalArray[(i + 1)] = hourTotal;
+  }
+  for(var i = 0; i < headerContent.length; i++) {
+    if(i === 0){
+      var th = document.createElement('th');
+      th.textContent = totalArray[i];
+      footRow.appendChild(th);
+    } else {
+      var td = document.createElement('td');
+      td.textContent = totalArray[i];
+      footRow.appendChild(td);
+    }
+  }
+  tableFoot.appendChild(footRow);
+  salesTable.appendChild(tableFoot);
+}
+
+totalByHour();
+
+
 
 //appending table to main.
 var main = document.getElementById('store_info');
