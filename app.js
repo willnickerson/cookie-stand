@@ -20,59 +20,18 @@ Store.prototype.salesPerHour = function() {
   return this.avgSale * this.generateRandom();
 };
 
-//Loads the sales array with times of the day in which sales are made.
-Store.prototype.loadHours = function() {
-  var hour;
-  var tableHours = [];
-  for(var i = 0; i <= 14; i++) {
-    if(i < 6){
-      hour = i + 6 + 'AM';
-    } else if(i === 6) {
-      hour = '12PM';
-    } else if(i < 14){
-      hour = i - 6 + 'PM';
-    } else {
-      hour = 'Total';
-    }
-    this.salesArray[i] = [hour];
-    tableHours[i + 1] = hour;
-  }
-  return tableHours;
-};
-
 //calculates total sales per day and loads sales per hour into salesArray.
 Store.prototype.salesPerDay = function() {
   this.total = 0;
-  this.loadHours();
-  for(var i = 0; i < 14; i++) {
-    this.salesArray[i][1] = Math.floor(this.salesPerHour());
-    this.total += this.salesArray[i][1];
+  //this.loadHours();
+  for(var i = 0; i <= 14; i++) {
+    this.salesArray[i] = Math.floor(this.salesPerHour());
+    this.total += this.salesArray[i];
   }
-  this.salesArray[(this.salesArray.length - 1)][1] = this.total;
+  this.salesArray[(this.salesArray.length - 1)] = this.total;
 };
 
-//renders sales data onto page in list form.
-Store.prototype.render = function() {
-  this.salesPerDay();
-  var ul = document.createElement('ul');
-  var h2 = document.createElement('h2');
-  var main = document.getElementById('store_info');
-
-  //while(main.firstChild) {
-    //main.removeChild(main.firstChild);
-  //} // firstChild remove borrowed from stackoverflow: http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-
-  h2.textContent = this.name;
-  ul.appendChild(h2);
-
-  for(var i = 0; i < this.salesArray.length; i++) {
-    var li = document.createElement('li');
-    li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + ' cookies';
-    ul.appendChild(li);
-  }
-  main.appendChild(ul);
-};
-
+//renders sale data to table
 Store.prototype.renderToTable = function() {
   this.salesPerDay();
   var tr = document.createElement('tr');
@@ -84,18 +43,35 @@ Store.prototype.renderToTable = function() {
     } else {
       var j = i - 1;
       var td = document.createElement('td');
-      td.textContent = this.salesArray[j][1];
+      td.textContent = this.salesArray[j] + ' cookies';
       tr.appendChild(td);
     }
   }
   tableBody.appendChild(tr);
 };
 
-var pike = new Store('Pike Place', 23, 65, 6.3);
+//This is a helper function that loads the hours of the day into the table head.
+function tableHeadHours() {
+  var tableHours = [];
+  var hour;
+  for(var i = 0; i <= 14; i++) {
+    if(i < 6){
+      hour = i + 6 + 'AM';
+    } else if(i === 6) {
+      hour = '12PM';
+    } else if(i < 14){
+      hour = i - 6 + 'PM';
+    } else {
+      hour = 'Total';
+    }
+    tableHours[i + 1] = hour;
+  }
+  return tableHours;
+}
 
 //creating table and table head elts
 var salesTable = document.createElement('table');
-var headerContent = pike.loadHours();
+var headerContent = tableHeadHours();
 var salesHead = document.createElement('thead');
 var headerRow = document.createElement('tr');
 
@@ -110,10 +86,11 @@ for(var i = 0; i < headerContent.length; i++){
 salesHead.appendChild(headerRow);
 salesTable.appendChild(salesHead);
 
-//creating body elts.
+//creating tabe body and rendering sales to table.
 var tableBody = document.createElement('tbody');
 salesTable.appendChild(tableBody);
 
+var pike = new Store('Pike Place', 23, 65, 6.3);
 pike.renderToTable();
 
 var seaTac = new Store('SeaTac', 3, 24, 1.2);
@@ -127,9 +104,6 @@ capHill.renderToTable();
 
 var alki = new Store('alki', 2, 16, 4.6);
 alki.renderToTable();
-
-
-
 
 //appending table to main.
 var main = document.getElementById('store_info');

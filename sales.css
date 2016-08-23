@@ -1,3 +1,20 @@
 table {
+  margin-top: 50px;
   border: 1px solid black;
+  width: 1500px;
+  height: 200px;
+}
+
+td {
+  outline: 1px solid grey;
+  text-align: center;
+  background-color: rgb(230, 230, 230);
+}
+
+th {
+  outline: 1px solid black;
+}
+
+thead {
+  outine: 1px solid black
 }
