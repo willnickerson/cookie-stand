@@ -1,0 +1,48 @@
+.container {
+  width: 1200px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+nav {
+  clear: both;
+  height: 30px;
+}
+
+nav ul {
+  margin: 0;
+}
+
+nav li {
+  display: inline;
+  padding-left: 20px;
+  font-size: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-family: serif;
+  font-size: 50px;
+}
+
+img {
+  display: block;
+  margin: 0px auto;
+  padding-top: 30px;
+}
+
+.shadowed {
+    -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+    filter: url(#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+}
+
+section {
+  width: 600px;
+  margin: 0 auto;
+}
+section p {
+  font-family: cursive;
+  padding-top: 20px;
+}

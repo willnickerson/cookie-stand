@@ -299,17 +299,12 @@ var alki = {
   }
 };
 
-//pike.salesPerDay();
 pike.render();
 
-//seaTac.salesPerDay();
 seaTac.render();
 
-//center.salesPerDay();
 center.render();
 
-//capHill.salesPerDay();
 capHill.render();
 
-//alki.salesPerDay();
 alki.render();
