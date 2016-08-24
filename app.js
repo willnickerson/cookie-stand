@@ -1,310 +1,142 @@
 'use strict';
 
-//Pike store
-var pike = {
-  minCust: 23,
-  maxCust: 65,
-  avgSale: 6.3,
-  total: 0,
-  salesArray: [],
-  //This generates the # of customers per hour
-  generateRandom: function() {
-    return Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-  },
-  //This calculates the # of sales during a given hour
-  salesPerHour: function() {
-    return this.avgSale * this.generateRandom();
-  },
-  //This turns an array indice into a time of day for final rendering
-  loadHours: function(){
-    var hour;
-    for(var i = 0; i <= 14; i++) {
-      if(i < 6){
-        hour = i + 6 + 'AM';
-      } else if(i === 6) {
-        hour = '12PM';
-      } else if(i < 14){
-        hour = i - 6 + 'PM';
-      } else {
-        hour = 'Total';
-      }
-      this.salesArray[i] = [hour,0];
-    }
-  },
-  //Calculates total sales per day and loads array with sales during a given hour. var i is the number of hours per day the store is open.
-  salesPerDay: function() {
-    pike.loadHours();
-    for(var i = 0; i < 14; i++) {
-      this.salesArray[i][1] = Math.floor(this.salesPerHour());
-      this.total += this.salesArray[i][1];
-    }
-    this.salesArray[(this.salesArray.length - 1)][1] = this.total;
-  },
-  //This renders the sales array into readible info in the browser.
-  render: function() {
-    pike.salesPerDay();
-    var ul = document.createElement('ul');
-    var h2 = document.createElement('h2');
-    var main = document.getElementById('store_info');
+//This is the object constructor for a store. The salesArray is instaciated as an empty array but will be filled with the hourly and total sales.
+function Store(name, min, max, avg) {
+  this.name = name;
+  this.minCust = min;
+  this.maxCust = max;
+  this.avgSale = avg;
+  this.total = 0;
+  this.salesArray = [];
+}
 
-    //while(main.firstChild) {
-      //main.removeChild(main.firstChild);
-    //} // firstChild remove borrowed from stackoverflow: http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-
-    h2.textContent = 'Pike';
-    ul.appendChild(h2);
-
-    for(var i = 0; i < this.salesArray.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + ' cookies';
-      ul.appendChild(li);
-    }
-    main.appendChild(ul);
-  }
+//calculates the # of customers at a given hour.
+Store.prototype.generateRandom = function() {
+  return Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
 };
 
-//SeaTac store
-var seaTac = {
-  minCust: 3,
-  maxCust: 24,
-  avgSale: 1.2,
-  total: 0,
-  salesArray: [],
-  //This generates the # of customers per hour
-  generateRandom: function() {
-    return Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-  },
-  //This calculates the # of sales during a given hour
-  salesPerHour: function() {
-    return this.avgSale * this.generateRandom();
-  },
-  //This turns an array indice into a time of day for final rendering
-  loadHours: function(){
-    var hour;
-    for(var i = 0; i <= 14; i++) {
-      if(i < 6){
-        hour = i + 6 + 'AM';
-      } else if(i === 6) {
-        hour = '12PM';
-      } else if(i < 14){
-        hour = i - 6 + 'PM';
-      } else {
-        hour = 'Total';
-      }
-      this.salesArray[i] = [hour,0];
-    }
-  },
-  //Calculates total sales per day and loads array with sales during a given hour. var i is the number of hours per day the store is open.
-  salesPerDay: function() {
-    seaTac.loadHours();
-    for(var i = 0; i < 14; i++) {
-      this.salesArray[i][1] = Math.floor(this.salesPerHour());
-      this.total += this.salesArray[i][1];
-    }
-    this.salesArray[(this.salesArray.length - 1)][1] = this.total;
-  },
-  //This renders the sales array into readible info in the browser.
-  render: function() {
-    seaTac.salesPerDay();
-    var ul = document.createElement('ul');
-    var h2 = document.createElement('h2');
-    var main = document.getElementById('store_info');
-
-    h2.textContent = 'SeaTac';
-    ul.appendChild(h2);
-
-    for(var i = 0; i < this.salesArray.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + ' cookies';
-      ul.appendChild(li);
-    }
-    main.appendChild(ul);
-  }
+//calculates # of cookies sold during a given hour based off of the # of customers during that hour.
+Store.prototype.salesPerHour = function() {
+  return this.avgSale * this.generateRandom();
 };
 
-//Seattle center store
-var center = {
-  minCust: 11,
-  maxCust: 38,
-  avgSale: 3.7,
-  total: 0,
-  salesArray: [],
-  //This generates the # of customers per hour
-  generateRandom: function() {
-    return Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-  },
-  //This calculates the # of sales during a given hour
-  salesPerHour: function() {
-    return this.avgSale * this.generateRandom();
-  },
-  //This turns an array indice into a time of day for final rendering
-  loadHours: function(){
-    var hour;
-    for(var i = 0; i <= 14; i++) {
-      if(i < 6){
-        hour = i + 6 + 'AM';
-      } else if(i === 6) {
-        hour = '12PM';
-      } else if(i < 14){
-        hour = i - 6 + 'PM';
-      } else {
-        hour = 'Total';
-      }
-      this.salesArray[i] = [hour,0];
-    }
-  },
-  //Calculates total sales per day and loads array with sales during a given hour. var i is the number of hours per day the store is open.
-  salesPerDay: function() {
-    center.loadHours();
-    for(var i = 0; i < 14; i++) {
-      this.salesArray[i][1] = Math.floor(this.salesPerHour());
-      this.total += this.salesArray[i][1];
-    }
-    this.salesArray[(this.salesArray.length - 1)][1] = this.total;
-  },
-  //This renders the sales array into readible info in the browser.
-  render: function() {
-    center.salesPerDay();
-    var ul = document.createElement('ul');
-    var h2 = document.createElement('h2');
-    var main = document.getElementById('store_info');
-
-    h2.textContent = 'Seattle Center';
-    ul.appendChild(h2);
-
-    for(var i = 0; i < this.salesArray.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + ' cookies';
-      ul.appendChild(li);
-    }
-    main.appendChild(ul);
+//calculates total sales per day and loads sales per hour into salesArray.
+Store.prototype.salesPerDay = function() {
+  this.total = 0;
+  for(var i = 0; i <= 14; i++) {
+    this.salesArray[i] = Math.floor(this.salesPerHour());
+    this.total += this.salesArray[i];
   }
+  this.salesArray[(this.salesArray.length - 1)] = this.total;
 };
 
-//Capitol Hill store
-var capHill = {
-  minCust: 20,
-  maxCust: 38,
-  avgSale: 2.3,
-  total: 0,
-  salesArray: [],
-  //This generates the # of customers per hour
-  generateRandom: function() {
-    return Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-  },
-  //This calculates the # of sales during a given hour
-  salesPerHour: function() {
-    return this.avgSale * this.generateRandom();
-  },
-  //This turns an array indice into a time of day for final rendering
-  loadHours: function(){
-    var hour;
-    for(var i = 0; i <= 14; i++) {
-      if(i < 6){
-        hour = i + 6 + 'AM';
-      } else if(i === 6) {
-        hour = '12PM';
-      } else if(i < 14){
-        hour = i - 6 + 'PM';
-      } else {
-        hour = 'Total';
-      }
-      this.salesArray[i] = [hour,0];
+//renders sale data to table
+Store.prototype.renderToTable = function() {
+  this.salesPerDay();
+  var tr = document.createElement('tr');
+  for (var i = 0; i <= this.salesArray.length; i++) {
+    if(i === 0){
+      var th = document.createElement('th');
+      th.textContent = this.name;
+      tr.appendChild(th);
+    } else {
+      var j = i - 1;
+      var td = document.createElement('td');
+      td.textContent = this.salesArray[j] + ' cookies';
+      tr.appendChild(td);
     }
-  },
-  //Calculates total sales per day and loads array with sales during a given hour. var i is the number of hours per day the store is open.
-  salesPerDay: function() {
-    capHill.loadHours();
-    for(var i = 0; i < 14; i++) {
-      this.salesArray[i][1] = Math.floor(this.salesPerHour());
-      this.total += this.salesArray[i][1];
-    }
-    this.salesArray[(this.salesArray.length - 1)][1] = this.total;
-  },
-  //This renders the sales array into readible info in the browser.
-  render: function() {
-    capHill.salesPerDay();
-    var ul = document.createElement('ul');
-    var h2 = document.createElement('h2');
-    var main = document.getElementById('store_info');
-
-    h2.textContent = 'Capitol Hill';
-    ul.appendChild(h2);
-
-    for(var i = 0; i < this.salesArray.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + ' cookies';
-      ul.appendChild(li);
-    }
-    main.appendChild(ul);
   }
+  tableBody.appendChild(tr);
 };
 
-//Alki store
-var alki = {
-  minCust: 2,
-  maxCust: 16,
-  avgSale: 4.6,
-  total: 0,
-  salesArray: [],
-  //This generates the # of customers per hour
-  generateRandom: function() {
-    return Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-  },
-  //This calculates the # of sales during a given hour
-  salesPerHour: function() {
-    return this.avgSale * this.generateRandom();
-  },
-  //This turns an array indice into a time of day for final rendering
-  loadHours: function(){
-    var hour;
-    for(var i = 0; i <= 14; i++) {
-      if(i < 6){
-        hour = i + 6 + 'AM';
-      } else if(i === 6) {
-        hour = '12PM';
-      } else if(i < 14){
-        hour = i - 6 + 'PM';
-      } else {
-        hour = 'Total';
-      }
-      this.salesArray[i] = [hour,0];
+//This is a helper function that loads the hours of the day into the table head.
+function tableHeadHours() {
+  var tableHours = [];
+  var hour;
+  for(var i = 0; i <= 14; i++) {
+    if(i < 6){
+      hour = i + 6 + 'AM';
+    } else if(i === 6) {
+      hour = '12PM';
+    } else if(i < 14){
+      hour = i - 6 + 'PM';
+    } else {
+      hour = 'Total';
     }
-  },
-  //Calculates total sales per day and loads array with sales during a given hour. var i is the number of hours per day the store is open.
-  salesPerDay: function() {
-    alki.loadHours();
-    for(var i = 0; i < 14; i++) {
-      this.salesArray[i][1] = Math.floor(this.salesPerHour());
-      this.total += this.salesArray[i][1];
-    }
-    this.salesArray[(this.salesArray.length - 1)][1] = this.total;
-  },
-  //This renders the sales array into readible info in the browser.
-  render: function() {
-    alki.salesPerDay();
-    var ul = document.createElement('ul');
-    var h2 = document.createElement('h2');
-    var main = document.getElementById('store_info');
-
-    h2.textContent = 'Alki';
-    ul.appendChild(h2);
-
-    for(var i = 0; i < this.salesArray.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = this.salesArray[i][0] + ': ' + this.salesArray[i][1] + ' cookies';
-      ul.appendChild(li);
-    }
-    main.appendChild(ul);
+    tableHours[i + 1] = hour;
   }
-};
+  return tableHours;
+}
 
-pike.render();
+//creating table and table head elts
+var salesTable = document.createElement('table');
+var headerContent = tableHeadHours();
+var salesHead = document.createElement('thead');
+var headerRow = document.createElement('tr');
 
-seaTac.render();
+//creating a appending table head content
+for(var i = 0; i < headerContent.length; i++){
+  var th = document.createElement('th');
+  th.textContent = headerContent[i];
+  headerRow.appendChild(th);
+}
 
-center.render();
+//appending table head to table
+salesHead.appendChild(headerRow);
+salesTable.appendChild(salesHead);
 
-capHill.render();
+//creating tabe body and rendering sales to table.
+var tableBody = document.createElement('tbody');
+salesTable.appendChild(tableBody);
 
-alki.render();
+var pike = new Store('Pike Place', 23, 65, 6.3);
+pike.renderToTable();
+
+var seaTac = new Store('SeaTac', 3, 24, 1.2);
+seaTac.renderToTable();
+
+var center = new Store('Seattle Center', 11, 38, 3.7);
+center.renderToTable();
+
+var capHill = new Store('Capitol Hill', 20, 38, 2.3);
+capHill.renderToTable();
+
+var alki = new Store('Alki', 2, 16, 4.6);
+alki.renderToTable();
+
+var tableFoot = document.createElement('tfoot');
+var footRow = document.createElement('tr');
+
+function totalByHour() {
+  var totalArray = ['Totals by hour'];
+  for(i = 0; i < pike.salesArray.length; i++) {
+    var hourTotal = 0;
+    hourTotal += pike.salesArray[i];
+    hourTotal += seaTac.salesArray[i];
+    hourTotal += center.salesArray[i];
+    hourTotal += capHill.salesArray[i];
+    hourTotal += alki.salesArray[i];
+    totalArray[(i + 1)] = hourTotal;
+  }
+  for(var i = 0; i < headerContent.length; i++) {
+    if(i === 0){
+      var th = document.createElement('th');
+      th.textContent = totalArray[i];
+      footRow.appendChild(th);
+    } else {
+      var td = document.createElement('td');
+      td.textContent = totalArray[i];
+      footRow.appendChild(td);
+    }
+  }
+  tableFoot.appendChild(footRow);
+  salesTable.appendChild(tableFoot);
+}
+
+totalByHour();
+
+
+
+//appending table to main.
+var main = document.getElementById('store_info');
+main.appendChild(salesTable);
