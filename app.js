@@ -19,6 +19,12 @@ var center = new Store('Seattle Center', 11, 38, 3.7);
 var capHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
+//this is only here to satisfy lint
+console.log(pike);
+console.log(seaTac);
+console.log(center);
+console.log(capHill);
+console.log(alki);
 
 
 //calculates the # of customers at a given hour.
@@ -60,33 +66,34 @@ Store.prototype.renderToTable = function() {
   return tr;
 };
 
-//This is a helper function that loads the hours of the day into the table head.
-function tableHeadHours() {
-  var tableHours = [];
-  var hour;
-  for(var i = 0; i <= 14; i++) {
-    if(i < 6){
-      hour = i + 6 + 'AM';
-    } else if(i === 6) {
-      hour = '12PM';
-    } else if(i < 14){
-      hour = i - 6 + 'PM';
-    } else {
-      hour = 'Total';
-    }
-    tableHours[i + 1] = hour;
-  }
-  return tableHours;
-}
-
-//creating table and table head elts
+//This function both creates the table and fills it with sale data!
 function createTable() {
+  //creating table and table head elts
   var salesTable = document.createElement('table');
-  var headerContent = tableHeadHours();
   var salesHead = document.createElement('thead');
   var headerRow = document.createElement('tr');
 
+  //This is a helper function that loads the hours of the day into the table head.
+  function tableHeadHours() {
+    var tableHours = [];
+    var hour;
+    for(var i = 0; i <= 14; i++) {
+      if(i < 6){
+        hour = i + 6 + 'AM';
+      } else if(i === 6) {
+        hour = '12PM';
+      } else if(i < 14){
+        hour = i - 6 + 'PM';
+      } else {
+        hour = 'Total';
+      }
+      tableHours[i + 1] = hour;
+    }
+    return tableHours;
+  }
+
   //creating a appending table head content
+  var headerContent = tableHeadHours();
   for(var i = 0; i < headerContent.length; i++){
     var th = document.createElement('th');
     th.textContent = headerContent[i];

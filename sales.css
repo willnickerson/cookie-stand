@@ -31,3 +31,7 @@ tfoot td {
 tfoot tr th {
   background-color: rgb(255, 160, 160);
 }
+
+ul {
+  list-style-type: none;
+}
