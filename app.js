@@ -153,3 +153,17 @@ function createTable() {
 }
 
 createTable();
+
+var submitNewStore = document.getElementById('new_store');
+
+submitNewStore.addEventListener('submit', handleSubmit);
+
+function handleSubmit(event){
+  event.preventDefault();
+  var name = event.target.name.value;
+  var minCust = event.target.min_cust.value;
+  var maxCust = event.target.max_cust.value;
+  var avgSale = event.target.avg_sales.value;
+  var newStore = new Store(name, minCust, maxCust, avgSale);
+  console.log(newStore);
+}
