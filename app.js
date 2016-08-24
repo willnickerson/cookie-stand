@@ -66,10 +66,13 @@ Store.prototype.renderToTable = function() {
   return tr;
 };
 
-//This function both creates the table and fills it with sale data!
+var salesTable = document.createElement('table');
+var main = document.getElementById('store_info');
+main.appendChild(salesTable);
+
+//This function both creates table elts and fills table with sale data!
 function createTable() {
   //creating table and table head elts
-  var salesTable = document.createElement('table');
   var salesHead = document.createElement('thead');
   var headerRow = document.createElement('tr');
 
@@ -114,45 +117,43 @@ function createTable() {
   //appending body to table
   salesTable.appendChild(tableBody);
 
-  //this function totals sales from all stores to each hour table footer
-  function totalByHour() {
-    //creating footer elts
-    var tableFoot = document.createElement('tfoot');
-    var footRow = document.createElement('tr');
+  return headerContent.length; //this will be used in the totalByHour function
+}
 
-    //looping through sales at each hour and storing the totals in an array
-    var totalArray = ['Totals by hour'];
-    for(i = 0; i < 15; i++) {
-      var hourTotal = 0;
-      for(var j = 0; j < storeArray.length; j++){
-        hourTotal += storeArray[j].salesArray[i];
-        totalArray[(i + 1)] = hourTotal;
-      }
+//this function totals sales from all stores to each hour table footer
+function totalByHour() {
+  //creating footer elts
+  var tableFoot = document.createElement('tfoot');
+  var footRow = document.createElement('tr');
+
+  //looping through sales at each hour and storing the totals in an array
+  var totalArray = ['Totals by hour'];
+  for(i = 0; i < 15; i++) {
+    var hourTotal = 0;
+    for(var j = 0; j < storeArray.length; j++){
+      hourTotal += storeArray[j].salesArray[i];
+      totalArray[(i + 1)] = hourTotal;
     }
-    //creating table row for the footer and filling it with hour totals
-    for(var i = 0; i < headerContent.length; i++) {
-      if(i === 0){
-        var th = document.createElement('th');
-        th.textContent = totalArray[i];
-        footRow.appendChild(th);
-      } else {
-        var td = document.createElement('td');
-        td.textContent = totalArray[i];
-        footRow.appendChild(td);
-      }
-    }
-    //appending table footer to table.
-    tableFoot.appendChild(footRow);
-    salesTable.appendChild(tableFoot);
   }
-
-  totalByHour();
-  //appending table to page
-  var main = document.getElementById('store_info');
-  main.appendChild(salesTable);
+  //creating table row for the footer and filling it with hour totals
+  for(var i = 0; i < 16; i++) {
+    if(i === 0){
+      var th = document.createElement('th');
+      th.textContent = totalArray[i];
+      footRow.appendChild(th);
+    } else {
+      var td = document.createElement('td');
+      td.textContent = totalArray[i];
+      footRow.appendChild(td);
+    }
+  }
+  //appending table footer to table.
+  tableFoot.appendChild(footRow);
+  salesTable.appendChild(tableFoot);
 }
 
 createTable();
+totalByHour();
 
 var submitNewStore = document.getElementById('new_store');
 
@@ -161,9 +162,41 @@ submitNewStore.addEventListener('submit', handleSubmit);
 function handleSubmit(event){
   event.preventDefault();
   var name = event.target.name.value;
+
   var minCust = event.target.min_cust.value;
+  minCust = Number(minCust);
+
   var maxCust = event.target.max_cust.value;
+  maxCust = Number(maxCust);
+
   var avgSale = event.target.avg_sales.value;
+  avgSale = Number(avgSale);
+
   var newStore = new Store(name, minCust, maxCust, avgSale);
   console.log(newStore);
+
+  //This fcn will append the new store data to the table body
+  function renderNew(){
+    var newTr = newStore.renderToTable();
+    var body = document.getElementsByTagName('tbody');
+    console.log(body[0]);
+    body[0].appendChild(newTr);
+  }
+  //This fcn will retotal the hourly sales
+  function newHourTotal(){
+    var removeFoot = document.getElementsByTagName('tfoot');
+    console.log(removeFoot);
+    var container = removeFoot[0].parentNode;
+    console.log(container);
+    container.removeChild(removeFoot[0]);
+    totalByHour();
+  }
+
+  renderNew();
+  newHourTotal();
+
+  event.target.name.value = null;
+  event.target.min_cust.value = null;
+  event.target.max_cust.value = null;
+  event.target.avg_sales.value = null;
 }
