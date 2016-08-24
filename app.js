@@ -172,31 +172,38 @@ function handleSubmit(event){
   var avgSale = event.target.avg_sales.value;
   avgSale = Number(avgSale);
 
-  var newStore = new Store(name, minCust, maxCust, avgSale);
-  console.log(newStore);
+  if(name === ''){
+    alert('You must enter a store name.');
+  } else if (isNaN(minCust) || isNaN(maxCust) || isNaN(avgSale)) {
+    alert('You must enter a number for maximum customers, minimum customers, and average sales.');
+  } else if (maxCust === 0 || avgSale === 0){
+    alert('You must enter a non-zero value for maximum customers and average sales.');
+  } else if (minCust >= maxCust) {
+    alert('Your maximum customers per hour must be greater than your minium.')
+  } else {
+    var newStore = new Store(name, minCust, maxCust, avgSale);
+    console.log(newStore);
 
-  //This fcn will append the new store data to the table body
-  function renderNew(){
-    var newTr = newStore.renderToTable();
-    var body = document.getElementsByTagName('tbody');
-    console.log(body[0]);
-    body[0].appendChild(newTr);
+    //This fcn will append the new store data to the table body
+    function renderNew(){
+      var newTr = newStore.renderToTable();
+      var body = document.getElementsByTagName('tbody');
+      body[0].appendChild(newTr);
+    }
+    //This fcn will retotal the hourly sales
+    function newHourTotal(){
+      var removeFoot = document.getElementsByTagName('tfoot');
+      var container = removeFoot[0].parentNode;
+      container.removeChild(removeFoot[0]);
+      totalByHour();
+    }
+
+    renderNew();
+    newHourTotal();
+
+    event.target.name.value = null;
+    event.target.min_cust.value = null;
+    event.target.max_cust.value = null;
+    event.target.avg_sales.value = null;
   }
-  //This fcn will retotal the hourly sales
-  function newHourTotal(){
-    var removeFoot = document.getElementsByTagName('tfoot');
-    console.log(removeFoot);
-    var container = removeFoot[0].parentNode;
-    console.log(container);
-    container.removeChild(removeFoot[0]);
-    totalByHour();
-  }
-
-  renderNew();
-  newHourTotal();
-
-  event.target.name.value = null;
-  event.target.min_cust.value = null;
-  event.target.max_cust.value = null;
-  event.target.avg_sales.value = null;
 }
