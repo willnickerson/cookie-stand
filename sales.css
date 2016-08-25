@@ -20,19 +20,19 @@ thead {
   background-color: rgb(200, 200, 255);
 }
 
+tfoot td {
+  background-color: rgb(255, 200, 200);
+}
+
 thead tr th:first-child {
   background-color: white;
 }
 
 tfoot tr th {
   background-color: rgb(255, 160, 160);
-
-
-tfoot td {
-  background-color: rgb(255, 200, 200);
 }
 
-}
+
 
 ul {
   vertical-align: top;
@@ -40,10 +40,10 @@ ul {
   display: inline-block;
 }
 
-li {
-  padding-top: 5px;
-  height: 19px
-}
+  li {
+    padding-top: 5px;
+    height: 19px
+  }
 
 h1{
   text-align: center;
