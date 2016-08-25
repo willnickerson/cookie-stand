@@ -179,7 +179,7 @@ function handleSubmit(event){
   } else if (maxCust === 0 || avgSale === 0){
     alert('You must enter a non-zero value for maximum customers and average sales.');
   } else if (minCust >= maxCust) {
-    alert('Your maximum customers per hour must be greater than your minium.')
+    alert('Your maximum customers per hour must be greater than your minium.');
   } else {
     var newStore = new Store(name, minCust, maxCust, avgSale);
     console.log(newStore);
