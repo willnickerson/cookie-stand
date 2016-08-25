@@ -1,6 +1,6 @@
 
 body {
-  border-left: rgb(120,120,120) solid 1px;
+
 }
 .container {
   width: 959px;
@@ -8,6 +8,28 @@ body {
   /*margin: 0 auto;*/
   display: inline-block;
   float: left;
+  border-left: rgb(120,120,120) solid 1px;
+}
+
+.container_buy {
+  width: 100%;
+  height: 600px;
+  margin: 0 auto;
+  display: block;
+}
+
+.item {
+  display: inline-block;
+  text-align: center;
+  padding-left: 29px;
+  padding-right: 69px;
+  width: 200px;
+  margin-top: 0px;
+  color: rgb(120,120,120);
+}
+
+.prices {
+  margin-left: 40px;
 }
 
 nav {
@@ -15,6 +37,14 @@ nav {
   height: 30px;
   display: inline-block;
   margin-bottom: 20px;
+}
+
+div.content ul {
+  list-style-type: none;
+}
+
+ul li {
+  display: inline-block;
 }
 
 nav ul {
@@ -31,6 +61,11 @@ nav li {
   border-right: rgb(120,120,120) solid 1px;
 }
 
+li a {
+  text-decoration: none;
+  color: black;
+}
+
 nav li:last-child {
   border-right: none;
 }
@@ -40,7 +75,6 @@ nav li:first-child {
 }
 
 .content {
-
   width: 950px;
   margin: 0 auto;
 }
@@ -81,6 +115,17 @@ img {
   padding-top: 30px;
   width: 687px;
   height: 216px;
+}
+
+li img {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  margin-left: 29px;
+  margin-right: 69px;
+  margin-top: 50px;
+  border: rgb(120,120,120) solid 1px;
+  padding-top: 0;
 }
 
 .shadowed {
