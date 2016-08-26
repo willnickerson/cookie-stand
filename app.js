@@ -66,34 +66,35 @@ Store.prototype.renderToTable = function() {
   return tr;
 };
 
+//creating table and appending it to page
 var salesTable = document.createElement('table');
 var main = document.getElementById('store_info');
 main.appendChild(salesTable);
 
-//This function both creates table elts and fills table with sale data!
+//This is a helper function that loads the hours of the day into the table head.
+function tableHeadHours() {
+  var tableHours = [];
+  var hour;
+  for(var i = 0; i <= 14; i++) {
+    if(i < 6){
+      hour = i + 6 + 'AM';
+    } else if(i === 6) {
+      hour = '12PM';
+    } else if(i < 14){
+      hour = i - 6 + 'PM';
+    } else {
+      hour = 'Total';
+    }
+    tableHours[i + 1] = hour;
+  }
+  return tableHours;
+}
+
+//This function creates table head and body and fills table with sale data!
 function createTable() {
   //creating table and table head elts
   var salesHead = document.createElement('thead');
   var headerRow = document.createElement('tr');
-
-  //This is a helper function that loads the hours of the day into the table head.
-  function tableHeadHours() {
-    var tableHours = [];
-    var hour;
-    for(var i = 0; i <= 14; i++) {
-      if(i < 6){
-        hour = i + 6 + 'AM';
-      } else if(i === 6) {
-        hour = '12PM';
-      } else if(i < 14){
-        hour = i - 6 + 'PM';
-      } else {
-        hour = 'Total';
-      }
-      tableHours[i + 1] = hour;
-    }
-    return tableHours;
-  }
 
   //creating a appending table head content
   var headerContent = tableHeadHours();
@@ -152,15 +153,19 @@ function totalByHour() {
   salesTable.appendChild(tableFoot);
 }
 
+//calling the function to generate table and total the hours in the footer
 createTable();
 totalByHour();
 
+//getting the node for new store submission and binding it to submit event
 var submitNewStore = document.getElementById('new_store');
-
 submitNewStore.addEventListener('submit', handleSubmit);
 
+// event handler function to add new store data to table
 function handleSubmit(event){
   event.preventDefault();
+
+  //turning form inputs into variable to create new store object
   var name = event.target.name.value;
 
   var minCust = event.target.min_cust.value;
@@ -172,9 +177,8 @@ function handleSubmit(event){
   var avgSale = event.target.avg_sales.value;
   avgSale = Number(avgSale);
 
-  if(name === ''){
-    alert('You must enter a store name.');
-  } else if (isNaN(minCust) || isNaN(maxCust) || isNaN(avgSale)) {
+  //insuring that all iputs to form are valid
+  if (isNaN(minCust) || isNaN(maxCust) || isNaN(avgSale)) {
     alert('You must enter a number for maximum customers, minimum customers, and average sales.');
   } else if (maxCust === 0 || avgSale === 0){
     alert('You must enter a non-zero value for maximum customers and average sales.');
@@ -182,28 +186,30 @@ function handleSubmit(event){
     alert('Your maximum customers per hour must be greater than your minium.');
   } else {
     var newStore = new Store(name, minCust, maxCust, avgSale);
-    console.log(newStore);
 
-    //This fcn will append the new store data to the table body
-    function renderNew(){
-      var newTr = newStore.renderToTable();
-      var body = document.getElementsByTagName('tbody');
-      body[0].appendChild(newTr);
-    }
-    //This fcn will retotal the hourly sales
-    function newHourTotal(){
-      var removeFoot = document.getElementsByTagName('tfoot');
-      var container = removeFoot[0].parentNode;
-      container.removeChild(removeFoot[0]);
-      totalByHour();
-    }
-
-    renderNew();
+    //calling functions to add sales data to table and retotal sales by hour
+    renderNew(newStore);
     newHourTotal();
 
+    //emptying form inputs
     event.target.name.value = null;
     event.target.min_cust.value = null;
     event.target.max_cust.value = null;
     event.target.avg_sales.value = null;
   }
+}
+
+//This fcn will append the new store data to the table body
+function renderNew(newStore){
+  var newTr = newStore.renderToTable();
+  var body = document.getElementsByTagName('tbody');
+  body[0].appendChild(newTr);
+}
+
+//This fcn will retotal the hourly sales
+function newHourTotal(){
+  var removeFoot = document.getElementsByTagName('tfoot');
+  var container = removeFoot[0].parentNode;
+  container.removeChild(removeFoot[0]);
+  totalByHour();
 }
