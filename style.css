@@ -1,9 +1,9 @@
 
 body {
-
+  height: 100%
 }
 .container {
-  width: 959px;
+  width: 1059px;
   height: 600px;
   /*margin: 0 auto;*/
   display: inline-block;
@@ -26,6 +26,12 @@ body {
   width: 200px;
   margin-top: 0px;
   color: rgb(120,120,120);
+  margin-bottom: 5px;
+}
+
+input{
+  text-align: center;
+  width: 20px;
 }
 
 .prices {
@@ -57,8 +63,16 @@ nav li {
   padding-left: 10px;
   padding-right: 10px;
   width: 111px;
-  font-size: 20px;
+  font-size: 18px;
   border-right: rgb(120,120,120) solid 1px;
+  font-family: 'Playfair Display SC', serif;
+}
+
+nav li:hover {
+  font-size: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-shadow: 4px 4px 2px #999;
 }
 
 li a {
@@ -86,7 +100,14 @@ aside {
   display: inline-block;
   border-left: rgb(180,180,180) solid 1px;
   border-right: rgb(180,180,180) solid 1px;
+  position: absolute;
+  right: -100px;
 
+}
+
+aside:hover {
+  position: absolute;
+  right: 0;
 }
 
 h1 {
@@ -106,7 +127,7 @@ h2 {
   font-size: 30px;
   font-family: 'Playfair Display SC', serif;
   text-decoration: underline;
-  padding-top: 15px;
+  padding-top: 20px;
 }
 
 img {
@@ -186,7 +207,7 @@ footer {
 footer ul {
   margin: 0 auto;
   border-top: rgb(120,120,120) solid 1px;
-  padding-top: 10px
+  padding-top: 8px
 }
 
 footer li {
@@ -203,4 +224,32 @@ footer li:first-child{
 }
 footer li:last-child {
   border-right: none;
+}
+
+.sub_container {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.links {
+  width: 298px;
+  display: inline-block;
+}
+
+h3 {
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Playfair Display SC',serif;
+  margin-top: 80px;
+  text-decoration: underline;
+}
+
+h3:hover {
+  font-size: 30px;
+  text-shadow: 4px 4px 2px #999
+}
+
+h3 a {
+  color: black;
+  text-decoration: none;
 }

@@ -1,6 +1,7 @@
 'use strict';
 
 var storeArray = [];
+
 //This is the object constructor for a store. The salesArray is instaciated as an empty array but will be filled with the hourly and total sales.
 function Store(name, min, max, avg) {
   this.name = name;
@@ -129,7 +130,7 @@ function totalByHour() {
 
   //looping through sales at each hour and storing the totals in an array
   var totalArray = ['Totals by hour'];
-  for(i = 0; i < 15; i++) {
+  for(i = 0; i < (tableHeadHours().length - 1); i++) {
     var hourTotal = 0;
     for(var j = 0; j < storeArray.length; j++){
       hourTotal += storeArray[j].salesArray[i];
@@ -137,7 +138,7 @@ function totalByHour() {
     }
   }
   //creating table row for the footer and filling it with hour totals
-  for(var i = 0; i < 16; i++) {
+  for(var i = 0; i < tableHeadHours().length; i++) {
     if(i === 0){
       var th = document.createElement('th');
       th.textContent = totalArray[i];
